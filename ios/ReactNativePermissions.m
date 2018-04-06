@@ -34,21 +34,16 @@
   #import "RCTEventDispatcher.h"
 #endif
 
-#import "RNPLocation.h"
-#import "RNPBluetooth.h"
+
 #import "RNPNotification.h"
 #import "RNPAudioVideo.h"
 #import "RNPEvent.h"
 #import "RNPPhoto.h"
-#import "RNPContacts.h"
 #import "RNPBackgroundRefresh.h"
-#import "RNPSpeechRecognition.h"
 #import "RNPMediaLibrary.h"
-#import "RNPMotion.h"
 
 
 @interface ReactNativePermissions()
-@property (strong, nonatomic) RNPLocation *locationMgr;
 @property (strong, nonatomic) RNPNotification *notificationMgr;
 @property (strong, nonatomic) RNPBluetooth *bluetoothMgr;
 @end
@@ -126,34 +121,22 @@ RCT_REMAP_METHOD(getPermissionStatus, getPermissionStatus:(RNPType)type json:(id
             break;
         case RNPTypePhoto:
             status = [RNPPhoto getStatus];
-            break;
-        case RNPTypeContacts:
-            status = [RNPContacts getStatus];
-            break;
+            break;        
         case RNPTypeEvent:
             status = [RNPEvent getStatus:@"event"];
             break;
         case RNPTypeReminder:
             status = [RNPEvent getStatus:@"reminder"];
-            break;
-        case RNPTypeBluetooth:
-            status = [RNPBluetooth getStatus];
-            break;
+            break;        
         case RNPTypeNotification:
             status = [RNPNotification getStatus];
             break;
         case RNPTypeBackgroundRefresh:
             status = [RNPBackgroundRefresh getStatus];
             break;
-        case RNPTypeSpeechRecognition:
-            status = [RNPSpeechRecognition getStatus];
-            break;
         case RNPTypeMediaLibrary:
             status = [RNPMediaLibrary getStatus];
-            break;
-        case RNPTypeMotion:
-            status = [RNPMotion getStatus];
-            break;
+            break;        
         default:
             break;
     }
@@ -165,31 +148,21 @@ RCT_REMAP_METHOD(requestPermission, permissionType:(RNPType)type json:(id)json r
 {
     NSString *status;
 
-    switch (type) {
-        case RNPTypeLocation:
-            return [self requestLocation:json resolve:resolve];
+    switch (type) {    
         case RNPTypeCamera:
             return [RNPAudioVideo request:@"video" completionHandler:resolve];
         case RNPTypeMicrophone:
             return [RNPAudioVideo request:@"audio" completionHandler:resolve];
         case RNPTypePhoto:
-            return [RNPPhoto request:resolve];
-        case RNPTypeContacts:
-            return [RNPContacts request:resolve];
+            return [RNPPhoto request:resolve];        
         case RNPTypeEvent:
             return [RNPEvent request:@"event" completionHandler:resolve];
         case RNPTypeReminder:
-            return [RNPEvent request:@"reminder" completionHandler:resolve];
-        case RNPTypeBluetooth:
-            return [self requestBluetooth:resolve];
+            return [RNPEvent request:@"reminder" completionHandler:resolve];        
         case RNPTypeNotification:
-            return [self requestNotification:json resolve:resolve];
-        case RNPTypeSpeechRecognition:
-            return [RNPSpeechRecognition request:resolve];
+            return [self requestNotification:json resolve:resolve];    
         case RNPTypeMediaLibrary:
-            return [RNPMediaLibrary request:resolve];
-        case RNPTypeMotion:
-            return [RNPMotion request:resolve];
+            return [RNPMediaLibrary request:resolve];        
         default:
             break;
     }
