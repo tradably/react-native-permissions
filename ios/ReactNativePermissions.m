@@ -45,7 +45,6 @@
 
 @interface ReactNativePermissions()
 @property (strong, nonatomic) RNPNotification *notificationMgr;
-@property (strong, nonatomic) RNPBluetooth *bluetoothMgr;
 @end
 
 @implementation ReactNativePermissions
@@ -107,12 +106,6 @@ RCT_REMAP_METHOD(getPermissionStatus, getPermissionStatus:(RNPType)type json:(id
     NSString *status;
 
     switch (type) {
-
-        case RNPTypeLocation: {
-            NSString *locationPermissionType = [RCTConvert NSString:json];
-            status = [RNPLocation getStatusForType:locationPermissionType];
-            break;
-        }
         case RNPTypeCamera:
             status = [RNPAudioVideo getStatus:@"video"];
             break;
@@ -170,16 +163,6 @@ RCT_REMAP_METHOD(requestPermission, permissionType:(RNPType)type json:(id)json r
 
 }
 
-- (void) requestLocation:(id)json resolve:(RCTPromiseResolveBlock)resolve
-{
-    if (self.locationMgr == nil) {
-        self.locationMgr = [[RNPLocation alloc] init];
-    }
-
-    NSString *type = [RCTConvert NSString:json];
-
-    [self.locationMgr request:type completionHandler:resolve];
-}
 
 - (void) requestNotification:(id)json resolve:(RCTPromiseResolveBlock)resolve
 {
@@ -202,16 +185,6 @@ RCT_REMAP_METHOD(requestPermission, permissionType:(RNPType)type json:(id)json r
 
     [self.notificationMgr request:types completionHandler:resolve];
 
-}
-
-
-- (void) requestBluetooth:(RCTPromiseResolveBlock)resolve
-{
-    if (self.bluetoothMgr == nil) {
-        self.bluetoothMgr = [[RNPBluetooth alloc] init];
-    }
-
-    [self.bluetoothMgr request:resolve];
 }
 
 
